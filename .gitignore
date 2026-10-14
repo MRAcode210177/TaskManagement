@@ -1,0 +1,11 @@
+# Secrets. Each app also has its own rules.
+.env
+!.env.example
+
+# Operating system files
+Thumbs.db
+.DS_Store
+
+# Editor files
+.idea/
+*.swp
