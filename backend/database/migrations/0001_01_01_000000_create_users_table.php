@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('role')->default('member')->index();
+            $table->foreignId('admin_id')->nullable()->constrained('users')->cascadeOnDelete();// this is a self-referencing foreign key to the users table, allowing for hierarchical relationships between users (e.g., an admin can have multiple members under them)
             $table->rememberToken();
             $table->timestamps();
         });
