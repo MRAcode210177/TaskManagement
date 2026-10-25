@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Enums\Role;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -18,11 +19,10 @@ class User extends Authenticatable
      * Only these fields can be filled from request data.
      * "role" and "admin_id" are NOT here on purpose.
      */
-
     protected $fillable = [
         'name',
         'email',
-        'password'
+        'password',
     ];
 
     protected $hidden = [
@@ -49,19 +49,38 @@ class User extends Authenticatable
         return $this->role === Role::Member;
     }
 
-    /**
-     * The admin who owns this member. This is a self-referencing relationship, where a user can be an admin of other users.
-     */
+    /** The admin who owns this member. */
     public function admin(): BelongsTo
     {
         return $this->belongsTo(User::class, 'admin_id');
     }
 
-    /**
-     * The members owned by this admin.
-     */
+    /** The members owned by this admin. */
     public function members(): HasMany
     {
         return $this->hasMany(User::class, 'admin_id');
+    }
+
+    /** Tasks this admin owns. */
+    public function ownedTasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'admin_id');
+    }
+
+    /** Tasks assigned to this member. */
+    public function assignedTasks(): HasMany
+    {
+        return $this->hasMany(Task::class, 'assigned_to');
+    }
+
+    /**
+     * OWNERSHIP SCOPE.
+     * Only the members that belong to this admin.
+     * Usage: User::membersOf($admin)->get()
+     */
+    public function scopeMembersOf(Builder $query, User $admin): Builder
+    {
+        return $query->where('role', Role::Member->value)
+            ->where('admin_id', $admin->id);
     }
 }
