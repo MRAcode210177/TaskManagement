@@ -1,0 +1,35 @@
+import { z } from 'zod';
+
+const email = z.string().trim().min(1, 'Email is required.').email('Enter a valid email.');
+
+export const loginSchema = z.object({
+  email,
+  password: z.string().min(1, 'Password is required.'),
+});
+
+export const registerSchema = z
+  .object({
+    name: z.string().trim().min(1, 'Name is required.').max(255, 'Name is too long.'),
+    email,
+    password: z.string().min(8, 'Use at least 8 characters.'),
+    password_confirmation: z.string(),
+  })
+  .refine((data) => data.password === data.password_confirmation, {
+    message: 'Passwords do not match.',
+    path: ['password_confirmation'],
+  });
+
+/** Read one text field from a form. A missing field becomes an empty text. */
+export function formText(formData: FormData, name: string): string {
+  return String(formData.get(name) ?? '');
+}
+
+/** Turn a Zod error into { field: [messages] }. */
+export function fieldErrorsFrom(error: z.ZodError): Record<string, string[]> {
+  const result: Record<string, string[]> = {};
+  for (const issue of error.issues) {
+    const key = String(issue.path[0] ?? 'form');
+    (result[key] ??= []).push(issue.message);
+  }
+  return result;
+}
