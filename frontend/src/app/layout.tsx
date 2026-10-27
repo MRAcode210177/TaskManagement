@@ -6,6 +6,8 @@ export const metadata: Metadata = {
   description: 'A simple task management app for teams',
 };
 
+export const instant = false;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
