@@ -33,3 +33,20 @@ export function fieldErrorsFrom(error: z.ZodError): Record<string, string[]> {
   }
   return result;
 }
+
+// Member management schemas
+const memberName = z.string().trim().min(1, 'Name is required.').max(255, 'Name is too long.');
+const memberPassword = z.string().min(8, 'Use at least 8 characters.');
+
+export const memberCreateSchema = z.object({
+  name: memberName,
+  email,
+  password: memberPassword,
+});
+
+// On edit, the password is optional: empty means "keep the old one".
+export const memberUpdateSchema = z.object({
+  name: memberName,
+  email,
+  password: memberPassword.optional(),
+});

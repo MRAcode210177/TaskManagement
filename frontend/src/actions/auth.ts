@@ -1,21 +1,22 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { ApiError, apiFetch } from '../lib/api';
+import { apiFetch } from '../lib/api';
 import { homePathFor } from '../lib/auth';
 import { clearToken, setToken } from '../lib/session';
 import type { FormState, User } from '../lib/types';
 import { fieldErrorsFrom, formText, loginSchema, registerSchema } from '../lib/validation';
+import { toFormState } from '@/lib/form-state';
 
 type AuthResponse = { data: User; token: string };
 
-/** Turn an error into something the form can show. */
-function toFormState(error: unknown, values: Record<string, string>): FormState {
-  if (error instanceof ApiError) {
-    return { error: error.message, fieldErrors: error.errors, values };
-  }
-  throw error; // an unknown problem: show the Next.js error page
-}
+// /** Turn an error into something the form can show. */
+// function toFormState(error: unknown, values: Record<string, string>): FormState {
+//   if (error instanceof ApiError) {
+//     return { error: error.message, fieldErrors: error.errors, values };
+//   }
+//   throw error; // an unknown problem: show the Next.js error page
+// }
 
 export async function loginAction(_previous: FormState, formData: FormData): Promise<FormState> {
   const values = { email: formText(formData, 'email') };
