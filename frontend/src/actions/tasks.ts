@@ -39,7 +39,7 @@ function toTaskInput(data: ReturnType<typeof readTaskForm>): TaskInput {
 function refreshTaskPages() {
   revalidatePath('/admin/tasks');
   revalidatePath('/admin');
-  revalidatePath('/member');
+  revalidatePath('/member', 'layout');
 }
 
 export async function createTaskAction(
