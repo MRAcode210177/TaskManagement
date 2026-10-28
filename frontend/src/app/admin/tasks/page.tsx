@@ -17,6 +17,9 @@ type Props = {
 };
 
 export default async function TasksPage({ searchParams }: Props) {
+
+  await new Promise((resolve) => setTimeout(resolve, 2000));
+
   const params = await searchParams;
 
   // Read the address carefully. A wrong value is ignored.
