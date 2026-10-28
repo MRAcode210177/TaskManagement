@@ -28,10 +28,10 @@ export default async function AdminHomePage() {
 
       <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
         <StatCard label="Members" value={data.members_count} href="/admin/members" />
-        <StatCard label="All tasks" value={data.tasks_total} />
-        <StatCard label="To do" value={todo} />
-        <StatCard label="In progress" value={in_progress} />
-        <StatCard label="Done" value={done} />
+        <StatCard label="All tasks" value={data.tasks_total} href="/admin/tasks" />
+        <StatCard label="To do" value={todo} href="/admin/tasks?status=todo" />
+        <StatCard label="In progress" value={in_progress} href="/admin/tasks?status=in_progress" />
+        <StatCard label="Done" value={done} href="/admin/tasks?status=done" />
       </div>
     </div>
   );

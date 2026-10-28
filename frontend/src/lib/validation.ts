@@ -50,3 +50,15 @@ export const memberUpdateSchema = z.object({
   email,
   password: memberPassword.optional(),
 });
+
+// Task management schemas
+export const taskSchema = z.object({
+  title: z.string().trim().min(1, 'Title is required.').max(255, 'Title is too long.'),
+  description: z.string().trim().max(5000, 'Description is too long.'),
+  // The form sends the member id as text, like "6".
+  assigned_to: z.string().regex(/^\d+$/, 'Choose a member.'),
+  // Empty is allowed. Otherwise the format is 2026-11-30.
+  due_date: z
+    .string()
+    .refine((value) => value === '' || /^\d{4}-\d{2}-\d{2}$/.test(value), 'Use a valid date.'),
+});

@@ -37,3 +37,10 @@ export async function requireRole(role: Role): Promise<User> {
   if (user.role !== role) redirect(homePathFor(user.role));
   return user;
 }
+
+/** Use in actions that ANY logged-in person may call (admin or member). */
+export async function requireUser(): Promise<User> {
+  const user = await getCurrentUser();
+  if (!user) redirect('/login');
+  return user;
+}

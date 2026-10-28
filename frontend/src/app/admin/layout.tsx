@@ -4,6 +4,7 @@ import { requireRole } from '@/lib/auth';
 const links = [
   { href: '/admin', label: 'Dashboard' },
   { href: '/admin/members', label: 'Members' },
+  { href: '/admin/tasks', label: 'Tasks' },
 ];
 
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
