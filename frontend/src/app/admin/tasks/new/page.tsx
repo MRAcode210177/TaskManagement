@@ -6,29 +6,39 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { LinkButton } from '@/components/ui/LinkButton';
 import { listAllMembers } from '@/lib/services';
 
-export const metadata: Metadata = { title: 'Add task | Task Management' };
+export const metadata: Metadata = { title: 'Create Task | TaskPilot' };
 
 export default async function NewTaskPage() {
   const members = await listAllMembers();
 
-  // A task must be given to a member. No members = nobody to give it to.
   if (members.length === 0) {
     return (
-      <div className="max-w-lg">
-        <PageHeader title="Add task" />
-        <EmptyState title="Add a member first" text="A task must be given to a member.">
-          <LinkButton href="/admin/members/new">Add member</LinkButton>
+      <div className="max-w-2xl">
+        <PageHeader title="Create New Task" subtitle="Assign sprint work to collaborators." />
+        <EmptyState
+          title="Add a team member first"
+          text="Tasks require an assigned member. Please register at least one collaborator before creating tasks."
+        >
+          <LinkButton href="/admin/members/new" variant="primary">
+            + Add Member
+          </LinkButton>
         </EmptyState>
       </div>
     );
   }
 
   return (
-    <div className="max-w-lg">
-      <PageHeader title="Add task" />
-      <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-        <TaskForm action={createTaskAction} members={members} submitLabel="Add task" />
-      </div>
+    <div className="max-w-2xl">
+      <PageHeader
+        title="Create New Sprint Task"
+        subtitle="Specify deliverables, assignees, and target deadline."
+      >
+        <LinkButton href="/admin/tasks" variant="secondary" size="sm">
+          ← Back to Tasks
+        </LinkButton>
+      </PageHeader>
+
+      <TaskForm action={createTaskAction} members={members} submitLabel="Create Task" />
     </div>
   );
 }
