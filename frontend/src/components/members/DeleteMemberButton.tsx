@@ -10,13 +10,12 @@ export function DeleteMemberButton({ id, name }: Props) {
     <form
       action={deleteMemberAction.bind(null, id)}
       onSubmit={(event) => {
-        // Ask first. Cancel = the form is not sent.
         if (!window.confirm(`Delete ${name}? Their tasks will be deleted too.`)) {
           event.preventDefault();
         }
       }}
     >
-      <Button type="submit" variant="danger">
+      <Button type="submit" variant="danger" size="sm">
         Delete
       </Button>
     </form>

@@ -16,9 +16,10 @@ export function LoginForm() {
     <form action={formAction} className="space-y-4" noValidate>
       <FormError message={state.error} />
       <Input
-        label="Email"
+        label="Work Email"
         name="email"
         type="email"
+        placeholder="name@company.com"
         autoComplete="email"
         defaultValue={state.values?.email}
         error={state.fieldErrors?.email?.[0]}
@@ -28,12 +29,13 @@ export function LoginForm() {
         label="Password"
         name="password"
         type="password"
+        placeholder="••••••••"
         autoComplete="current-password"
         error={state.fieldErrors?.password?.[0]}
         required
       />
-      <Button type="submit" disabled={pending} className="w-full">
-        {pending ? 'Signing in...' : 'Sign in'}
+      <Button type="submit" disabled={pending} className="w-full mt-2" size="lg">
+        {pending ? 'Authenticating...' : 'Sign In to Workspace'}
       </Button>
     </form>
   );
